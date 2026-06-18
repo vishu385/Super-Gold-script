@@ -2,7 +2,7 @@ import random
 import uuid
 import time
 import logging
-import requests
+from curl_cffi import requests
 from database import get_db, update_user
 
 logger = logging.getLogger(__name__)
@@ -91,20 +91,8 @@ def send_otp(phone_number, proxy_string):
 
     proxies = {"http": proxy_url, "https": proxy_url} if proxy_url else None
     
-    session = requests.Session()
-    if proxies:
-        session.proxies.update(proxies)
-        
+    session = requests.Session(impersonate=browser_profile, proxies=proxies)
     url = "https://www.super.com/snapcommerce/api/trpc/authentication.cognitoCreateUserOrLogIn"
-    
-    user_agents = {
-        "chrome120": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-        "chrome116": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36",
-        "chrome110": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36",
-        "edge101": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.64 Safari/537.36 Edg/101.0.1210.47",
-        "safari15_5": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.5 Safari/605.1.15",
-        "safari15_3": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.3 Safari/605.1.15"
-    }
     
     headers = {
         'accept': '*/*',
@@ -112,7 +100,6 @@ def send_otp(phone_number, proxy_string):
         'content-type': 'application/json',
         'origin': 'https://www.super.com',
         'referer': 'https://www.super.com/',
-        'user-agent': user_agents.get(browser_profile, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
     }
     
     payload = {
