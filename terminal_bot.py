@@ -88,14 +88,14 @@ def send_super_otp(phone_number, proxy_url):
         response = session.post(url, headers=headers, json=payload)
         
         if response.status_code == 200:
-            return True, proxy_url
+            return True, proxy_url, browser_profile, device_id
         else:
             logger.error(f"[{phone_number}] ❌ Failed. Status: {response.status_code} | {response.text[:100]}")
-            return False, proxy_url
+            return False, proxy_url, browser_profile, device_id
             
     except Exception as e:
         logger.error(f"[{phone_number}] ❌ Error during request: {e}")
-        return False, proxy_url
+        return False, proxy_url, browser_profile, device_id
 
 def main():
     config = load_config()
@@ -141,11 +141,12 @@ def main():
             else:
                 logger.warning(f"[{number}] No proxies available! Sending direct request.")
                 
-            success, used_proxy = send_super_otp(number, current_proxy)
+            success, used_proxy, browser, dev_id = send_super_otp(number, current_proxy)
             
             if success:
                 numbers_dict[number]["sent"] += 1
                 sent_count = numbers_dict[number]["sent"]
+                logger.info(f"[{number}] 🌐 Browser: {browser} | Device: {dev_id[:8]}")
                 logger.info(f"[{number}] ✅ SUCCESS: OTP Sent! ({sent_count}/{limit})")
                 
                 if sent_count >= limit:

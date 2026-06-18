@@ -47,7 +47,7 @@ def attack_thread(chat_id, bot):
                 proxy_index += 1
             
             # Send OTP
-            success, proxy_used = send_otp(number, current_proxy)
+            success, proxy_used, browser, dev_id = send_otp(number, current_proxy)
             
             if success:
                 # Update DB
@@ -58,7 +58,7 @@ def attack_thread(chat_id, bot):
                 update_user(chat_id, db[chat_id])
                 
                 safe_proxy = proxy_used.split('@')[-1] if proxy_used else "Direct (No Proxy)"
-                msg = f"✅ OTP Sent to `{number}`\n📊 Status: {sent_count}/{limit}\n🛡️ Proxy: `{safe_proxy}`"
+                msg = f"✅ OTP Sent to `{number}`\n📊 Status: {sent_count}/{limit}\n🛡️ Proxy: `{safe_proxy}`\n🌐 Browser: `{browser}` (Device ID: `{dev_id[:8]}`)"
                 
                 if sent_count >= limit:
                     msg += "\n🎉 **Limit reached for this number. Removing from queue.**"
@@ -127,9 +127,9 @@ def send_otp(phone_number, proxy_string):
         response = session.post(url, headers=headers, json=payload, timeout=10)
         
         if response.status_code == 200:
-            return True, proxy_string
+            return True, proxy_string, browser_profile, device_id
         else:
-            return False, proxy_string
+            return False, proxy_string, browser_profile, device_id
     except Exception as e:
         logger.error(f"Request Error: {e}")
-        return False, proxy_string
+        return False, proxy_string, browser_profile, device_id
