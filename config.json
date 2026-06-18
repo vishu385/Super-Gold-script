@@ -1,0 +1,9 @@
+{
+  "numbers": [
+    "+263771893295",
+    "+263771862907"
+  ],
+  "proxy_file": ".txt",
+  "loop_count": 2,
+  "wait_between_otp_seconds": 5
+}

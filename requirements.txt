@@ -1,0 +1,2 @@
+curl-cffi==0.5.10
+pyTelegramBotAPI==4.15.4
