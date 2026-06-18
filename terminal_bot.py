@@ -146,8 +146,7 @@ def main():
             if success:
                 numbers_dict[number]["sent"] += 1
                 sent_count = numbers_dict[number]["sent"]
-                logger.info(f"[{number}] 🌐 Browser: {browser} | Device: {dev_id[:8]}")
-                logger.info(f"[{number}] ✅ SUCCESS: OTP Sent! ({sent_count}/{limit})")
+                logger.info(f"[{number}] ✅ SUCCESS: OTP Sent! ({sent_count}/{limit}) | 🛡️ Proxy: {safe_proxy_log} | 🌐 Browser: {browser} | Device: {dev_id[:8]}")
                 
                 if sent_count >= limit:
                     logger.info(f"[{number}] 🎉 Limit reached for this number. Removing from queue.")
