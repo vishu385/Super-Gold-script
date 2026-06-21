@@ -195,8 +195,35 @@ try:
 except Exception as e:
     logger.warning(f"Failed to set bot commands: {e}")
 
-try:
-    logger.info("Starting Telegram Bot Polling...")
-    bot.polling(none_stop=True)
-except Exception as e:
-    logger.error(f"Polling failed. If you are in a country where Telegram is blocked, please run this script through a VPN. Error: {e}")
+import asyncio
+from aiohttp import web
+
+async def handle(request):
+    return web.Response(text="Bot is running!")
+
+async def init_app():
+    app = web.Application()
+    app.router.add_get('/', handle)
+    return app
+
+def run_server():
+    import os
+    port = int(os.environ.get("PORT", 8080))
+    app = asyncio.run(init_app())
+    web.run_app(app, port=port)
+
+# Run bot in a thread
+def run_bot():
+    try:
+        logger.info("Starting Telegram Bot Polling...")
+        bot.polling(none_stop=True)
+    except Exception as e:
+        logger.error(f"Polling failed. Error: {e}")
+
+bot_thread = threading.Thread(target=run_bot)
+bot_thread.daemon = True
+bot_thread.start()
+
+# Start the web server in the main thread
+logger.info("Starting Web Server...")
+run_server()
