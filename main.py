@@ -72,10 +72,12 @@ def handle_add_proxy(message):
         bot.reply_to(message, "⚠️ Send proxies separated by space or newline.\nExample: `/add_proxy 12.34.56.78:8080:user:pass`", parse_mode="Markdown")
         return
         
+    # Split by whitespace which handles both spaces and newlines
     new_proxies = text.split()
     added = 0
     for proxy in new_proxies:
-        if proxy not in user["proxies"]:
+        proxy = proxy.strip()
+        if proxy and proxy not in user["proxies"]:
             user["proxies"].append(proxy)
             added += 1
             
