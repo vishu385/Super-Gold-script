@@ -15,6 +15,12 @@ logger = logging.getLogger(__name__)
 BOT_TOKEN = "8918306883:AAHfY9aIAg985By3AiJLAHsJdcOOi-UoR80"
 bot = telebot.TeleBot(BOT_TOKEN)
 
+# Clear any conflicting webhooks before starting polling
+try:
+    bot.remove_webhook()
+except Exception:
+    pass
+
 # Initialize Database
 init_db()
 
