@@ -72,7 +72,7 @@ def attack_thread(chat_id, bot):
             time.sleep(wait_time)
 
 def send_otp(phone_number, proxy_string):
-    impersonate_profiles = ["chrome110", "chrome116", "chrome120", "edge101", "safari15_3", "safari15_5"]
+    impersonate_profiles = ["chrome110", "chrome101", "edge99", "safari15_3", "safari15_5"]
     browser_profile = random.choice(impersonate_profiles)
     
     device_id = str(uuid.uuid4())

@@ -41,7 +41,7 @@ def load_proxies(proxy_file):
 def send_super_otp(phone_number, proxy_url):
     # Elite Level Randomization: Pick a random modern browser profile
     # This automatically changes TLS fingerprint, JA3 hash, HTTP2 frames, and User-Agent!
-    impersonate_profiles = ["chrome110", "chrome116", "chrome120", "edge101", "safari15_3", "safari15_5"]
+    impersonate_profiles = ["chrome110", "chrome101", "edge99", "safari15_3", "safari15_5"]
     browser_profile = random.choice(impersonate_profiles)
     
     logger.info(f"[{phone_number}] Using browser profile: {browser_profile}")
