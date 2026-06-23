@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 # Fallback: Instead of applying it to telebot directly which causes SSL issues with api.telegram.org via HTTP proxies, 
 # we rely on the system environment variables if the user has a VPN, or just direct if Telegram is actually accessible.
 
-BOT_TOKEN = "8918306883:AAHfY9aIAg985By3AiJLAHsJdcOOi-UoR80"
+BOT_TOKEN = "8918306883:AAFBzMKxBTL119ig-Pha9qmSrBZHnXt1rbA"
 bot = telebot.TeleBot(BOT_TOKEN)
 
 # Clear any conflicting webhooks before starting polling
